@@ -3,15 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#10243d" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="DLP Priority" />
-  <link rel="manifest" href="./manifest.webmanifest" />
-  <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="./icons/icon-180.png" />
-
   <title>DLP Priority · Disneyland Paris</title>
   <style>
     :root {
@@ -252,10 +243,19 @@
     }
     .dlp-header-inner { max-width:1120px; margin:auto; display:flex; align-items:center; justify-content:space-between; gap:15px; position:relative; z-index:1; }
     .dlp-brand { display:flex; align-items:center; gap:11px; }
-    .dlp-stamp { width:43px; height:43px; border:1px solid rgba(255,255,255,.42); border-radius:14px 14px 14px 4px; display:grid; place-items:center; color:var(--dlp-navy); background:var(--dlp-coral); font-weight:900; font-size:11px; letter-spacing:.04em; box-shadow:5px 5px 0 rgba(255,255,255,.10); }
-    .dlp-stamp img { width:100%; height:100%; object-fit:cover; border-radius:13px 13px 13px 4px; display:block; }
+    .dlp-stamp { width:43px; height:43px; border:1px solid rgba(255,255,255,.42); border-radius:14px 14px 14px 4px; display:grid; place-items:center; color:var(--dlp-navy); background:var(--dlp-coral); font-weight:900; font-size:10px; letter-spacing:.02em; box-shadow:5px 5px 0 rgba(255,255,255,.10); overflow:hidden; position:relative; }
+    .dlp-stamp strong { position:relative; z-index:2; font-size:9px; letter-spacing:.02em; }
+    .dlp-logo-clock { position:absolute; inset:7px; border:2px solid rgba(255,255,255,.92); border-radius:50%; z-index:1; }
+    .dlp-logo-clock::before, .dlp-logo-clock::after { content:""; position:absolute; left:50%; top:50%; width:1.5px; background:var(--dlp-navy); transform-origin:bottom center; border-radius:4px; }
+    .dlp-logo-clock::before { height:9px; transform:translate(-50%,-100%) rotate(20deg); }
+    .dlp-logo-clock::after { height:7px; transform:translate(-50%,-100%) rotate(125deg); }
+    .dlp-logo-clock i, .dlp-logo-clock b, .dlp-logo-clock em { position:absolute; width:2px; height:2px; background:rgba(255,255,255,.92); border-radius:50%; }
+    .dlp-logo-clock i { left:50%; top:2px; transform:translateX(-50%); }
+    .dlp-logo-clock b { right:2px; top:50%; transform:translateY(-50%); }
+    .dlp-logo-clock em { left:2px; top:50%; transform:translateY(-50%); }
     .dlp-brand-name { font-family:Georgia, "Times New Roman", serif; font-size:23px; line-height:1; letter-spacing:-.04em; }
     .dlp-brand-sub { color:#aebdd0; font-size:10px; margin-top:4px; letter-spacing:.08em; text-transform:uppercase; }
+    .dlp-version { color:var(--dlp-coral); margin-left:6px; letter-spacing:.05em; font-weight:850; }
     .dlp-head-actions { display:flex; gap:8px; }
     .dlp-icon-btn { border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.08); color:#fff; width:39px; height:39px; border-radius:12px; display:grid; place-items:center; }
     .dlp-icon-btn:hover { background:rgba(255,255,255,.16); }
@@ -340,6 +340,26 @@
     .dlp-card-management { display:flex; gap:8px; flex-wrap:wrap; margin-top:16px; padding-top:15px; border-top:1px solid var(--dlp-line); }
     .dlp-card-management button { min-height:38px; padding:0 11px; font-size:10px; }
     .dlp-card-management svg { width:14px; height:14px; }
+    .dlp-note-preview { margin-top:10px; padding:10px 11px; background:#fff8ee; border:1px solid #f6e2bd; color:#8b6d3b; border-radius:11px; font-size:10px; line-height:1.35; }
+    .dlp-reminder-summary { display:flex; flex-wrap:wrap; gap:5px; margin-top:8px; }
+    .dlp-reminder-chip { display:inline-flex; align-items:center; gap:4px; padding:5px 7px; border-radius:8px; background:#eaf4ef; color:#3f7962; font-size:9px; font-weight:800; }
+    .dlp-reminder-chip.off { background:#f1f3f4; color:#87919a; }
+    .dlp-field textarea, .dlp-field select { width:100%; border:1px solid var(--dlp-line); border-radius:12px; background:#fbfcfc; color:var(--dlp-ink); padding:11px 12px; outline:none; resize:vertical; }
+    .dlp-field textarea:focus, .dlp-field select:focus { border-color:var(--dlp-coral); box-shadow:0 0 0 3px rgba(255,115,95,.14); }
+    .dlp-reminder-grid { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:7px; }
+    .dlp-reminder-option { min-height:42px; border:1px solid var(--dlp-line); border-radius:11px; padding:8px 7px; display:flex; align-items:center; gap:5px; color:var(--dlp-muted); font-size:10px; line-height:1.2; cursor:pointer; }
+    .dlp-reminder-option:has(input:checked) { color:#3f7962; background:#eef8f1; border-color:#b9dfc8; }
+    .dlp-reminder-option input { accent-color:#50b986; width:15px; height:15px; flex:0 0 auto; }
+    .dlp-settings-sheet { width:min(560px,100%); background:var(--dlp-paper); border-radius:24px 24px 0 0; padding:20px 18px max(20px, env(safe-area-inset-bottom)); box-shadow:0 -15px 50px rgba(17,34,55,.22); }
+    .dlp-settings-group { display:grid; gap:10px; margin-bottom:18px; }
+    .dlp-setting-row { display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:46px; }
+    .dlp-setting-copy strong { display:block; font-size:12px; }
+    .dlp-setting-copy span { display:block; color:var(--dlp-muted); font-size:10px; margin-top:3px; }
+    .dlp-setting-actions { display:flex; flex-wrap:wrap; gap:8px; }
+    .dlp-setting-button { min-height:39px; border:1px solid var(--dlp-line); background:#fff; color:var(--dlp-ink); border-radius:11px; padding:0 11px; display:inline-flex; align-items:center; gap:6px; font-size:10px; font-weight:800; }
+    .dlp-setting-button svg { width:14px; height:14px; }
+    @media (min-width: 780px) { .dlp-settings-sheet { border-radius:24px; padding:25px; } }
+    @media (max-width: 390px) { .dlp-reminder-grid { grid-template-columns:1fr; } }
     .dlp-primary:hover { background:#213d5e; }
     .dlp-primary svg, .dlp-secondary svg { width:15px; height:15px; }
     .dlp-side-panel { background:var(--dlp-paper); border:1px solid var(--dlp-line); border-radius:20px; padding:17px; }
@@ -417,11 +437,12 @@
     <header class="dlp-header">
       <div class="dlp-header-inner">
         <div class="dlp-brand">
-          <div class="dlp-stamp"><img src="./assets/dlp-priority-logo.png" alt="DLP Priority Logo"></div>
-          <div><div class="dlp-brand-name">DLP Priority</div><div class="dlp-brand-sub">Dein Rückkehrplan · Disneyland Paris</div></div>
+          <div class="dlp-stamp" aria-label="DLP Priority Logo"><span class="dlp-logo-clock" aria-hidden="true"><i></i><b></b><em></em></span><strong>DLP</strong></div>
+          <div><div class="dlp-brand-name">DLP Priority</div><div class="dlp-brand-sub">Dein Rückkehrplan · Disneyland Paris <span class="dlp-version">vers. 1.0</span></div></div>
         </div>
         <div class="dlp-head-actions">
           <button class="dlp-icon-btn" id="dlpNotifyBtn" aria-label="Benachrichtigungen aktivieren"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM10 21h4"/></svg></button>
+          <button class="dlp-icon-btn" id="dlpSettingsBtn" aria-label="Haupteinstellungen öffnen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"/><path d="m19.4 15 .1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.9 1.9 0 0 0-3.2 1.3v.3a2 2 0 1 1-4 0v-.2A1.9 1.9 0 0 0 6.2 18l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.9 1.9 0 0 0 2.1 12H2a2 2 0 1 1 0-4h.2a1.9 1.9 0 0 0 1.2-3.2l-.1-.1A2 2 0 1 1 6.1 2l.1.1A1.9 1.9 0 0 0 9.4.8V.7a2 2 0 1 1 4 0v.2a1.9 1.9 0 0 0 3.2 1.2l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1A1.9 1.9 0 0 0 20.7 8h.2a2 2 0 1 1 0 4h-.2a1.9 1.9 0 0 0-1.3 3Z"/></svg></button>
           <button class="dlp-icon-btn" id="dlpHeaderAdd" aria-label="Neue Rückkehrzeit hinzufügen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg></button>
         </div>
       </div>
@@ -443,12 +464,26 @@
             <div class="dlp-field full" id="dlpCardNameField"><label for="dlpCardNameInput">Name der Karte</label><input id="dlpCardNameInput" placeholder="z. B. Familie oder Dominik" /></div>
             <div class="dlp-field full" id="dlpCardSelectField"><label for="dlpCardSelect">Priority-Karte</label><select id="dlpCardSelect"></select></div>
             <div class="dlp-field full" id="dlpEntryFields"><label for="dlpAttractionInput">Name der Attraktion</label><input id="dlpAttractionInput" placeholder="z. B. Peter Pan’s Flight" /></div>
+            <div class="dlp-field full" id="dlpNoteField"><label for="dlpNoteInput">Notiz (optional)</label><textarea id="dlpNoteInput" rows="2" placeholder="z. B. Eingang links oder Ausweis dabeihaben"></textarea></div>
             <div class="dlp-field" id="dlpDateField"><label for="dlpDateInput">Datum</label><input id="dlpDateInput" type="date" /></div>
             <div class="dlp-field" id="dlpTimeField"><label for="dlpTimeInput">Rückkehrzeit</label><input id="dlpTimeInput" type="time" /></div>
+            <div class="dlp-field full" id="dlpReminderOptionsField"><label>Erinnerungen</label><div class="dlp-reminder-grid"><label class="dlp-reminder-option"><input type="checkbox" id="dlpReminder30"><span>30 Min. vorher</span></label><label class="dlp-reminder-option"><input type="checkbox" id="dlpReminder10"><span>10 Min. vorher</span></label><label class="dlp-reminder-option"><input type="checkbox" id="dlpReminderAt"><span>Zur Rückkehrzeit</span></label></div></div>
           </div>
-          <label class="dlp-check" id="dlpReminderRow"><input id="dlpReminderInput" type="checkbox" checked /> Mich zur Rückkehrzeit benachrichtigen</label>
           <div class="dlp-form-actions"><button type="button" class="dlp-form-cancel" id="dlpCancelSheet">Abbrechen</button><button type="submit" class="dlp-form-save" id="dlpSaveBtn">Zeit speichern</button></div>
         </form>
+      </section>
+    </div>
+    <div class="dlp-sheet-backdrop hidden" id="dlpSettingsBackdrop">
+      <section class="dlp-settings-sheet" role="dialog" aria-modal="true" aria-labelledby="dlpSettingsTitle">
+        <div class="dlp-sheet-handle"></div>
+        <div class="dlp-sheet-head"><div><h2 id="dlpSettingsTitle">Haupteinstellungen</h2><p>Lege fest, wie DLP Priority dich erinnern soll.</p></div><button class="dlp-round-btn" id="dlpCloseSettings" aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div>
+        <div class="dlp-settings-group">
+          <div class="dlp-setting-row"><div class="dlp-setting-copy"><strong>Benachrichtigungen</strong><span>Erinnerungen im Browser und auf dem iPhone</span></div><button class="dlp-switch on" id="dlpSettingNotification" aria-pressed="true"><i></i></button></div>
+          <div class="dlp-setting-row"><div class="dlp-setting-copy"><strong>Ton</strong><span>Akustisches Signal bei einer Erinnerung</span></div><button class="dlp-switch on" id="dlpSettingSound" aria-pressed="true"><i></i></button></div>
+          <div class="dlp-setting-row"><div class="dlp-setting-copy"><strong>Vibration</strong><span>Haptisches Signal, wenn das Gerät es unterstützt</span></div><button class="dlp-switch on" id="dlpSettingVibration" aria-pressed="true"><i></i></button></div>
+        </div>
+        <div class="dlp-settings-group"><div class="dlp-setting-copy"><strong>Parktag</strong><span id="dlpSelectedDayText">Aktiver Parktag: Sonntag, 30. August 2026</span></div><div class="dlp-day-picker"><input id="dlpDayInput" type="date" value="2026-08-30" /><button class="dlp-setting-button" id="dlpSetDay">Parktag wechseln</button></div></div>
+        <div class="dlp-settings-group"><div class="dlp-setting-copy"><strong>Daten sichern</strong><span>Alle Karten, Zeiten und Einstellungen als Datei übertragen.</span></div><div class="dlp-setting-actions"><button class="dlp-setting-button" id="dlpExportBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 4v11M8 11l4 4 4-4M5 20h14"/></svg>Exportieren</button><button class="dlp-setting-button" id="dlpImportBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20V9M8 13l4-4 4 4M5 4h14"/></svg>Importieren</button><input type="file" id="dlpImportInput" accept="application/json,.json" hidden /></div></div>
       </section>
     </div>
     <div class="dlp-toast" id="dlpToast" role="status"></div>
@@ -457,6 +492,7 @@
     (() => {
       const DLP_TODAY = '2026-08-30';
       const DLP_PREVIEW_NOW = '2026-08-30T14:30:00';
+      const DLP_VERSION = '1.0';
       const dlpIcon = {
         home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m3 11 9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9Z"/></svg>',
         card: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/></svg>',
@@ -467,19 +503,28 @@
         trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>',
         pin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z"/><circle cx="12" cy="9" r="2.3"/></svg>',
         arrow: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
-        clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 2"/></svg>'
+        clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 2"/></svg>',
+        download: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 4v11M8 11l4 4 4-4M5 20h14"/></svg>',
+        upload: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20V9M8 13l4-4 4 4M5 4h14"/></svg>',
+        calendar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18"/></svg>',
+        volume: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10v4h4l5 4V6l-5 4H4Z"/><path d="M17 9a4 4 0 0 1 0 6M19.5 6.5a8 8 0 0 1 0 11"/></svg>',
+        vibration: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="8" y="4" width="8" height="16" rx="2"/><path d="M5 8v8M2 10v4M19 8v8M22 10v4"/></svg>',
+        note: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 4h14v16H5z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>',
+        download: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 4v11M8 11l4 4 4-4M5 20h14"/></svg>',
+        upload: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20V9M8 13l4-4 4 4M5 4h14"/></svg>',
+        calendar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18"/></svg>',
+        volume: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10v4h4l5 4V6l-5 4H4Z"/><path d="M17 9a4 4 0 0 1 0 6M19.5 6.5a8 8 0 0 1 0 11"/></svg>',
+        vibration: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="8" y="4" width="8" height="16" rx="2"/><path d="M5 8v8M2 10v4M19 8v8M22 10v4"/></svg>',
+        note: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 4h14v16H5z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>'
       };
       let dlpCards = [
-        { id:'family', name:'Familie', entries:[
-          { id:'f1', attraction:'Dumbo the Flying Elephant', park:'Fantasyland', date:DLP_TODAY, time:'12:05', reminder:false },
-          { id:'f2', attraction:'Peter Pan’s Flight', park:'Fantasyland', date:DLP_TODAY, time:'14:20', reminder:true, current:true }
+        { id:'prio1', name:'Prio1', entries:[
+          { id:'p1-1', attraction:'Peter Pan’s Flight', park:'Fantasyland', date:DLP_TODAY, time:'14:20', reminder:true, current:true },
+          { id:'p1-2', attraction:'Ratatouille: The Adventure', park:'Worlds of Pixar', date:DLP_TODAY, time:'16:10', reminder:true }
         ]},
-        { id:'dominik', name:'Dominik', entries:[
-          { id:'d1', attraction:'Ratatouille: The Adventure', park:'Worlds of Pixar', date:DLP_TODAY, time:'13:10', reminder:true },
-          { id:'d2', attraction:'Big Thunder Mountain', park:'Frontierland', date:DLP_TODAY, time:'15:05', reminder:true, next:true }
-        ]},
-        { id:'gemeinsam', name:'Gemeinsam', entries:[
-          { id:'g1', attraction:'Buzz Lightyear Laser Blast', park:'Discoveryland', date:DLP_TODAY, time:'16:10', reminder:true }
+        { id:'prio2', name:'Prio2', entries:[
+          { id:'p2-1', attraction:'Dumbo the Flying Elephant', park:'Fantasyland', date:DLP_TODAY, time:'12:05', reminder:false },
+          { id:'p2-2', attraction:'Big Thunder Mountain', park:'Frontierland', date:DLP_TODAY, time:'15:05', reminder:true, next:true }
         ]}
       ];
       let dlpActiveTab = 'overview';
@@ -488,14 +533,24 @@
       let dlpEditingCardId = null;
       let dlpEditingEntryId = null;
       let dlpToastTimer;
+      let dlpDay = { id:'2026-08-30', label:'Sonntag, 30. August 2026' };
+      let dlpSettings = { sound:true, vibration:true, notification:true };
+      let dlpReminderTimers = new Set();
       const $ = id => document.getElementById(id);
       const escapeHtml = value => String(value).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
       const entryDate = entry => new Date(entry.date + 'T' + entry.time + ':00');
       const entryStamp = entry => entry.date + 'T' + entry.time + ':00';
+      const reminderOffsets = entry => Array.isArray(entry.reminders) ? entry.reminders : (entry.reminder === false ? [] : ['at']);
+      const reminderLabels = { '30':'30 Min. vorher', '10':'10 Min. vorher', 'at':'Zur Rückkehrzeit' };
+      const reminderText = entry => reminderOffsets(entry).length ? reminderOffsets(entry).map(key => reminderLabels[key]).join(' · ') : 'Keine Erinnerung';
+      const escapeCsv = value => '"' + String(value ?? '').replaceAll('"','""') + '"';
+      const parkDayLabel = () => dlpDay.label;
+      const isoToday = () => dlpDay.id;
       const allEntries = () => dlpCards.flatMap(card => card.entries.map(entry => ({...entry, cardId:card.id, cardName:card.name})));
-      const previewNow = () => new Date(DLP_PREVIEW_NOW);
-      const nextEntry = () => allEntries().filter(entry => entryDate(entry) > previewNow()).sort((a,b) => entryDate(a)-entryDate(b))[0] || null;
-      const latestEntry = () => allEntries().filter(entry => entry.current).sort((a,b) => entryDate(b)-entryDate(a))[0] || allEntries().filter(entry => entryDate(entry) <= previewNow()).sort((a,b) => entryDate(b)-entryDate(a))[0] || null;
+      const dayEntries = () => allEntries().filter(entry => entry.date === dlpDay.id);
+      const previewNow = () => new Date(dlpDay.id + 'T14:30:00');
+      const nextEntry = () => dayEntries().filter(entry => entryDate(entry) > previewNow()).sort((a,b) => entryDate(a)-entryDate(b))[0] || null;
+      const latestEntry = () => dayEntries().filter(entry => entry.current).sort((a,b) => entryDate(b)-entryDate(a))[0] || dayEntries().filter(entry => entryDate(entry) <= previewNow()).sort((a,b) => entryDate(b)-entryDate(a))[0] || null;
       const stateOf = entry => {
         const next = nextEntry();
         if (entry.current) return 'current';
@@ -527,19 +582,19 @@
         const state = stateOf(entry);
         return `<div class="dlp-history-row" data-dlp-open-card="${entry.cardId}">
           <div class="dlp-history-time">${escapeHtml(entry.time)}<small>${escapeHtml(niceDate(entry.date).split(',')[0])}</small></div>
-          <div class="dlp-history-copy"><strong>${escapeHtml(entry.attraction)}</strong><span>${showCard ? escapeHtml(entry.cardName) + ' · ' : ''}${escapeHtml(entry.park || 'Disneyland Paris')} · ${escapeHtml(niceDate(entry.date))}</span></div>
+          <div class="dlp-history-copy"><strong>${escapeHtml(entry.attraction)}</strong><span>${showCard ? escapeHtml(entry.cardName) + ' · ' : ''}${escapeHtml(entry.park || 'Disneyland Paris')} · ${escapeHtml(niceDate(entry.date))}</span>${entry.note ? `<div class="dlp-note-preview">${dlpIcon.note} ${escapeHtml(entry.note)}</div>` : ''}</div>
           ${stateBadge(entry)}
         </div>`;
       }
       function renderOverview() {
-        const all = allEntries();
+        const all = dayEntries();
         const latest = latestEntry();
         const next = nextEntry();
         const past = sortedEntries(all.filter(entry => stateOf(entry) === 'past'));
         const filtered = dlpFilter === 'all' ? sortedEntries(all) : dlpFilter === 'past' ? past : sortedEntries(all.filter(entry => ['next','upcoming'].includes(stateOf(entry))));
         const activeCards = new Set(all.filter(entry => ['current','next','upcoming'].includes(stateOf(entry))).map(entry => entry.cardId)).size;
         $('dlpOverviewPanel').innerHTML = `
-          <div class="dlp-dayline"><span>Parktag · Sonntag, 30. August 2026</span><span class="dlp-live"><i></i>${activeCards} aktive Karten</span></div>
+          <div class="dlp-dayline"><span>Parktag · ${escapeHtml(parkDayLabel())}</span><span class="dlp-live"><i></i>${activeCards} aktive Karten</span></div>
           <section class="dlp-hero"><div class="dlp-hero-top"><div><div class="dlp-overline">Deine Parkübersicht</div><h1>Immer wissen,<br>wo du hinmusst.</h1><p class="dlp-hero-intro">DLP Priority sammelt jede Rückkehrzeit an einem Ort – auch wenn du mit mehreren Karten unterwegs bist.</p></div></div>
             <div class="dlp-hero-grid">
               <div class="dlp-state">${latest ? `<div class="dlp-state-label">Aktuellste Karte</div><div class="dlp-state-time">${escapeHtml(latest.time)}</div><div class="dlp-state-name">${escapeHtml(latest.attraction)}</div><div class="dlp-state-meta">${dlpIcon.card}${escapeHtml(latest.cardName)} · ${escapeHtml(countdown(latest))}</div>` : '<div class="dlp-state-label">Aktuellste Karte</div><div class="dlp-state-empty">Noch keine Rückkehrzeit eingetragen.</div>'}</div>
@@ -555,8 +610,39 @@
         document.querySelectorAll('[data-dlp-open-card]').forEach(row => row.addEventListener('click', () => { dlpActiveTab = row.dataset.dlpOpenCard; render(); }));
       }
       function cardActiveEntry(card) {
-        return card.entries.filter(entry => ['current','next','upcoming'].includes(stateOf(entry))).sort((a,b) => entryDate(a)-entryDate(b))[0] || null;
+        return card.entries.filter(entry => entry.date === dlpDay.id && ['current','next','upcoming'].includes(stateOf(entry))).sort((a,b) => entryDate(a)-entryDate(b))[0] || null;
       }
+      function renderSettings() {
+        const setSwitch = (id, value) => { const button = $(id); button.classList.toggle('on', value); button.setAttribute('aria-pressed', String(value)); };
+        setSwitch('dlpSettingNotification', dlpSettings.notification); setSwitch('dlpSettingSound', dlpSettings.sound); setSwitch('dlpSettingVibration', dlpSettings.vibration);
+        $('dlpSelectedDayText').textContent = 'Aktiver Parktag: ' + parkDayLabel(); $('dlpDayInput').value = dlpDay.id;
+      }
+      function downloadJson(filename, data) {
+        const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'}); const url = URL.createObjectURL(blob); const link = document.createElement('a'); link.href=url; link.download=filename; link.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
+      }
+      function exportData() { downloadJson('dlp-priority-backup.json', {version:DLP_VERSION, exportedAt:new Date().toISOString(), day:dlpDay, settings:dlpSettings, cards:dlpCards}); showToast('Backup exportiert'); }
+      function triggerReminder(entry, offset) {
+        if (!dlpSettings.notification) return;
+        const message = offset === 'at' ? 'Jetzt zurück zu ' + entry.attraction : entry.attraction + ' in ' + (offset === '30' ? '30' : '10') + ' Minuten';
+        if (dlpSettings.sound && window.AudioContext) { try { const ctx = new AudioContext(); const osc = ctx.createOscillator(); const gain = ctx.createGain(); osc.frequency.value = 740; gain.gain.value = .08; osc.connect(gain); gain.connect(ctx.destination); osc.start(); osc.stop(ctx.currentTime + .22); } catch {} }
+        if (dlpSettings.vibration && navigator.vibrate) navigator.vibrate([180,90,180]);
+        if ('Notification' in window && Notification.permission === 'granted') new Notification('DLP Priority', {body:message}); else showToast(message);
+      }
+      function scheduleReminders() {
+        dlpReminderTimers.forEach(timer => clearTimeout(timer)); dlpReminderTimers.clear();
+        dayEntries().forEach(entry => reminderOffsets(entry).forEach(offset => { const minutes = offset === '30' ? 30 : offset === '10' ? 10 : 0; const delay = entryDate(entry) - previewNow() - minutes * 60000; if (delay > 0 && delay < 2147483647) { const timer = setTimeout(() => triggerReminder(entry, offset), delay); dlpReminderTimers.add(timer); } }));
+      }
+      function importData(file) {
+        const reader = new FileReader(); reader.onload = () => { try { const data=JSON.parse(reader.result); if (!Array.isArray(data.cards)) throw new Error(); dlpCards=data.cards; dlpDay=data.day || dlpDay; dlpSettings={...dlpSettings,...(data.settings||{})}; dlpActiveTab='overview'; renderSettings(); render(); scheduleReminders(); showToast('Backup importiert'); } catch { showToast('Import fehlgeschlagen: Datei prüfen'); } }; reader.readAsText(file);
+      }
+      function bindSettings() {
+        [['dlpSettingNotification','notification'],['dlpSettingSound','sound'],['dlpSettingVibration','vibration']].forEach(([id,key]) => $(id).addEventListener('click', () => { dlpSettings[key]=!dlpSettings[key]; renderSettings(); showToast((dlpSettings[key] ? 'An' : 'Aus') + ': ' + ({notification:'Benachrichtigungen',sound:'Ton',vibration:'Vibration'}[key])); }));
+        $('dlpSetDay').addEventListener('click', () => { const value=$('dlpDayInput').value; if (!value) return; const date=new Date(value+'T12:00:00'); dlpDay={id:value,label:date.toLocaleDateString('de-DE',{weekday:'long',day:'2-digit',month:'long',year:'numeric'})}; closeSettings(); render(); scheduleReminders(); showToast('Parktag gewechselt'); });
+        $('dlpExportBtn').addEventListener('click', exportData); $('dlpImportBtn').addEventListener('click', () => $('dlpImportInput').click()); $('dlpImportInput').addEventListener('change', event => { if (event.target.files[0]) importData(event.target.files[0]); event.target.value=''; });
+      }
+      function openSettings() { renderSettings(); $('dlpSettingsBackdrop').classList.remove('hidden'); }
+      function closeSettings() { $('dlpSettingsBackdrop').classList.add('hidden'); }
+      bindSettings();
       function renderCard(card) {
         const active = cardActiveEntry(card);
         const history = sortedEntries(card.entries.filter(entry => stateOf(entry) === 'past'));
@@ -564,7 +650,7 @@
         $('dlpCardPanel').innerHTML = `
           <div class="dlp-dayline"><span>Priority-Karte · ${escapeHtml(card.name)}</span><span class="dlp-live"><i></i>${card.entries.length} ${card.entries.length === 1 ? 'Zeit' : 'Zeiten'}</span></div>
           <div class="dlp-card-detail"><section class="dlp-detail-main"><div class="dlp-detail-head"><div><div class="dlp-overline">Meine Priority-Karte</div><h2>${escapeHtml(card.name)}</h2><div class="dlp-detail-area">${dlpIcon.card} Mehrere Rückkehrzeiten auf dieser Karte</div></div><div class="dlp-detail-actions"><button class="dlp-round-btn" data-dlp-add-entry="${card.id}" aria-label="Zeit hinzufügen">${dlpIcon.plus}</button></div></div>
-            ${active ? `<div class="dlp-ticket"><div class="dlp-ticket-label">${stateOf(active) === 'current' ? 'Aktuellste Rückkehrzeit' : 'Nächste Rückkehrzeit'}</div><div class="dlp-ticket-time">${escapeHtml(active.time)}</div><div class="dlp-ticket-date">${escapeHtml(niceDate(active.date))} · ${escapeHtml(active.attraction)}</div></div><div class="dlp-detail-note">${stateOf(active) === 'current' ? 'Diese Karte wurde zuletzt aktualisiert. Deine nächste geplante Zeit findest du direkt darunter.' : 'Das ist die nächste Rückkehrzeit auf dieser Karte. Du kannst sie jederzeit ändern oder löschen.'}</div><div class="dlp-action-row"><button class="dlp-primary" data-dlp-edit="${card.id}|${active.id}">${dlpIcon.edit}Zeit bearbeiten</button><button class="dlp-secondary" data-dlp-toggle="${card.id}|${active.id}">${active.reminder ? dlpIcon.bell : dlpIcon.bellOff}${active.reminder ? 'Erinnerung an' : 'Erinnerung aus'}</button></div>` : '<div class="dlp-history-empty" style="margin-top:25px;">Auf dieser Karte ist noch keine Zeit eingetragen.</div>'}
+            ${active ? `<div class="dlp-ticket"><div class="dlp-ticket-label">${stateOf(active) === 'current' ? 'Aktuellste Rückkehrzeit' : 'Nächste Rückkehrzeit'}</div><div class="dlp-ticket-time">${escapeHtml(active.time)}</div><div class="dlp-ticket-date">${escapeHtml(niceDate(active.date))} · ${escapeHtml(active.attraction)}</div><div class="dlp-reminder-summary">${reminderOffsets(active).length ? reminderOffsets(active).map(key => `<span class="dlp-reminder-chip">${escapeHtml(reminderLabels[key])}</span>`).join('') : '<span class="dlp-reminder-chip off">Keine Erinnerung</span>'}</div></div><div class="dlp-detail-note">${active.note ? '<strong>Notiz:</strong> ' + escapeHtml(active.note) : (stateOf(active) === 'current' ? 'Diese Karte wurde zuletzt aktualisiert. Deine nächste geplante Zeit findest du direkt darunter.' : 'Das ist die nächste Rückkehrzeit auf dieser Karte. Du kannst sie jederzeit ändern oder löschen.')}</div><div class="dlp-action-row"><button class="dlp-primary" data-dlp-edit="${card.id}|${active.id}">${dlpIcon.edit}Zeit bearbeiten</button><button class="dlp-secondary" data-dlp-toggle="${card.id}|${active.id}">${reminderOffsets(active).length ? dlpIcon.bell : dlpIcon.bellOff}${reminderOffsets(active).length ? 'Erinnerung an' : 'Erinnerung aus'}</button></div>` : '<div class="dlp-history-empty" style="margin-top:25px;">Auf dieser Karte ist noch keine Zeit eingetragen.</div>'}
             <div class="dlp-card-management"><button class="dlp-secondary" data-dlp-rename="${card.id}">${dlpIcon.edit}Karte umbenennen</button><button class="dlp-danger" data-dlp-delete-card="${card.id}">${dlpIcon.trash}Karte löschen</button></div>
           </section><aside class="dlp-detail-side"><section class="dlp-side-panel"><h3>Als Nächstes</h3><div class="dlp-mini-list">${upcoming.length ? upcoming.slice(0,3).map(entry => `<div class="dlp-mini-item"><i class="dlp-mini-dot"></i><b>${escapeHtml(entry.time)}</b><div style="min-width:0; flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${escapeHtml(entry.attraction)}</div><span>${escapeHtml(countdown(entry))}</span></div>`).join('') : '<div class="dlp-history-empty" style="padding:10px 0;">Keine weiteren Zeiten geplant.</div>'}</div></section><section class="dlp-side-panel"><h3>Vergangene Zeiten</h3><div class="dlp-history">${history.length ? history.map(entry => historyRow(entry, false)).join('') : '<div class="dlp-history-empty">Noch keine vergangene Zeit.</div>'}</div></section></aside></div>
         `;
@@ -591,15 +677,19 @@
         $('dlpEntryFields').classList.toggle('dlp-hidden', isCard);
         $('dlpDateInput').classList.toggle('dlp-hidden', isCard);
         $('dlpTimeInput').classList.toggle('dlp-hidden', isCard);
-        $('dlpReminderRow').classList.toggle('dlp-hidden', isCard);
+        $('dlpReminderOptionsField').classList.toggle('dlp-hidden', isCard);
+        $('dlpNoteField').classList.toggle('dlp-hidden', isCard);
         $('dlpSaveBtn').textContent = isCard ? 'Karte anlegen' : isEdit ? 'Änderungen speichern' : 'Zeit speichern';
         $('dlpCardNameInput').value = isCard ? '' : '';
         $('dlpAttractionInput').value = '';
-        $('dlpDateInput').value = DLP_TODAY;
+        $('dlpNoteInput').value = '';
+        $('dlpDateInput').value = dlpDay.id;
         $('dlpTimeInput').value = '';
-        $('dlpReminderInput').checked = true;
+        $('dlpReminder30').checked = false;
+        $('dlpReminder10').checked = false;
+        $('dlpReminderAt').checked = true;
         fillCardSelect(cardId || (dlpActiveTab !== 'overview' ? dlpActiveTab : dlpCards[0]?.id));
-        if (isEdit) { const entry = findEntry(cardId, entryId); if (entry) { $('dlpAttractionInput').value = entry.attraction; $('dlpDateInput').value = entry.date; $('dlpTimeInput').value = entry.time; $('dlpReminderInput').checked = entry.reminder; } }
+        if (isEdit) { const entry = findEntry(cardId, entryId); if (entry) { $('dlpAttractionInput').value = entry.attraction; $('dlpDateInput').value = entry.date; $('dlpTimeInput').value = entry.time; $('dlpNoteInput').value = entry.note || ''; const reminders = reminderOffsets(entry); $('dlpReminder30').checked = reminders.includes('30'); $('dlpReminder10').checked = reminders.includes('10'); $('dlpReminderAt').checked = reminders.includes('at'); } }
         $('dlpSheetBackdrop').classList.remove('hidden');
         setTimeout(() => $(isCard ? 'dlpCardNameInput' : 'dlpAttractionInput').focus(), 40);
       }
@@ -613,7 +703,8 @@
         }
         const cardId = dlpEditingCardId || $('dlpCardSelect').value; const card = findCard(cardId); const attraction = $('dlpAttractionInput').value.trim();
         if (!card || !attraction || !$('dlpDateInput').value || !$('dlpTimeInput').value) return;
-        const values = {attraction, date:$('dlpDateInput').value, time:$('dlpTimeInput').value, reminder:$('dlpReminderInput').checked, park:'Disneyland Paris'};
+        const reminders = ['30','10','at'].filter(key => key === '30' ? $('dlpReminder30').checked : key === '10' ? $('dlpReminder10').checked : $('dlpReminderAt').checked);
+        const values = {attraction, date:$('dlpDateInput').value, time:$('dlpTimeInput').value, reminder:reminders.length > 0, reminders, note:$('dlpNoteInput').value.trim(), park:'Disneyland Paris'};
         if (dlpEditingEntryId) { const entry = findEntry(cardId, dlpEditingEntryId); Object.assign(entry, values); entry.current = false; showToast('Rückkehrzeit aktualisiert'); }
         else { card.entries.push({id:'entry-' + Date.now(), ...values}); showToast('Rückkehrzeit hinzugefügt'); }
         closeSheet(); dlpActiveTab = cardId; render();
@@ -625,11 +716,89 @@
       render();
     })();
   </script>
-
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6 5.6 18.4"/><circle cx="12" cy="12" r="3.2"/></svg></div>
+        <div><div class="brand-name">Parkzeit</div><div class="brand-kicker">Dein Rückkehrplan</div></div>
+      </div>
+      <div class="nav-title">Übersicht</div>
+      <nav class="nav" aria-label="Hauptnavigation">
+        <button class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg>Meine Karten <span class="nav-count" id="navCount">3</span></button>
+        <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3h12v18l-6-3-6 3V3Z"/><path d="M9 8h6M9 12h6"/></svg>Parktag</button>
+        <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21a9 9 0 1 0-9-9"/><path d="M12 7v5l3 2"/><path d="M3 3v5h5"/></svg>Verlauf</button>
+      </nav>
+      <div class="side-spacer"></div>
+      <div class="ios-note"><strong>Erinnerungen aktiv</strong>Parkzeit erinnert dich an jede Rückkehrzeit – auch wenn du gerade im Park unterwegs bist.</div>
+      <div class="side-user"><div class="avatar">DL</div><span>Dominik · Disneyland Paris</span></div>
+    </aside>
+    <main>
+      <header class="topbar">
+        <div><div class="eyebrow">Sonntag · 30. August 2026</div><h1>Guten Morgen, Dominik.</h1></div>
+        <div class="top-actions"><button class="ghost-button" id="notifyBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM10 21h4"/></svg>Erinnerungen testen</button><button class="icon-button" aria-label="Einstellungen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"/><path d="m19.4 15 .1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.9 1.9 0 0 0-3.2 1.3v.3a2 2 0 1 1-4 0v-.2A1.9 1.9 0 0 0 6.2 18l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.9 1.9 0 0 0 2.1 12H2a2 2 0 1 1 0-4h.2a1.9 1.9 0 0 0 1.2-3.2l-.1-.1A2 2 0 1 1 6.1 2l.1.1A1.9 1.9 0 0 0 9.4.8V.7a2 2 0 1 1 4 0v.2a1.9 1.9 0 0 0 3.2 1.2l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1A1.9 1.9 0 0 0 20.7 8h.2a2 2 0 1 1 0 4h-.2a1.9 1.9 0 0 0-1.3 3Z"/></svg></button><button class="mobile-menu" aria-label="Menü"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div>
+      </header>
+      <section class="hero-card" aria-label="Nächste Rückkehrzeit">
+        <div class="hero-copy"><div class="hero-label"><span class="pulse"></span>Nächste Rückkehr</div><h2>Ein kleiner Umweg.<br />Kein verlorener Moment.</h2><p>Deine Priority-Karten auf einen Blick. Parkzeit sagt dir, wann du wieder bei deiner Attraktion sein darfst.</p></div>
+        <div class="hero-stat"><div><div class="hero-stat-label">Wieder bei</div><strong class="hero-stat-time" id="heroTime">14:20</strong><div class="hero-stat-meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z"/><circle cx="12" cy="9" r="2.3"/></svg><span id="heroAttraction">Peter Pan’s Flight</span></div></div><div class="hero-count"><div class="hero-stat-label">Noch</div><strong class="hero-stat-time" style="font-size:26px; color:var(--coral);" id="heroCountdown">48 min</strong></div></div>
+      </section>
+      <div class="section-head"><div><h3>Meine Priority-Karten</h3><p>Jede Karte ist ein eigener Park-Moment.</p></div><div class="view-toggle"><button class="active" aria-label="Kartenansicht"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg></button><button aria-label="Listenansicht"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 6h12M8 12h12M8 18h12"/><path d="M4 6h.01M4 12h.01M4 18h.01" stroke-linecap="round" stroke-width="3"/></svg></button></div></div>
+      <section class="cards" id="cards"></section>
+      <div class="bottom-grid"><section class="panel"><div class="panel-title"><h3>Letzte Änderungen</h3><a href="#" onclick="return false">Alle anzeigen</a></div><div class="activity-list"><div class="activity"><div class="activity-icon coral"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="8"/></svg></div><div class="activity-copy"><strong>Peter Pan’s Flight aktualisiert</strong><span>Rückkehrzeit auf 14:20 geändert</span></div><div class="activity-time">vor 4 Min.</div></div><div class="activity"><div class="activity-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM10 21h4"/></svg></div><div class="activity-copy"><strong>Erinnerung ist eingeschaltet</strong><span>Für Big Thunder Mountain</span></div><div class="activity-time">vor 18 Min.</div></div><div class="activity"><div class="activity-icon sky"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div><div class="activity-copy"><strong>Neue Karte angelegt</strong><span>Ratatouille: The Adventure</span></div><div class="activity-time">vor 41 Min.</div></div></div></section><section class="panel tip"><div class="panel-title"><h3>Kleiner Parktipp</h3><span style="color:var(--gold); font-size:20px;">✦</span></div><p class="tip-text">Trag die Zeit direkt nach der Ausgabe ein. So bleibt der Kopf frei für den nächsten schönen Umweg.</p><button class="tip-link" id="tipBtn">Erinnerungen verstehen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></section></div>
+    </main>
+  </div>
+  <div class="modal-backdrop" id="modalBackdrop"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-head"><div><h3 id="modalTitle">Neue Priority-Karte</h3><p>Eine Karte, eine Rückkehrzeit – ganz einfach.</p></div><button class="close" id="closeModal" aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div><form id="cardForm"><div class="form-grid"><div class="field full"><label for="attractionInput">Name der Attraktion</label><input id="attractionInput" required placeholder="z. B. Buzz Lightyear Laser Blast" /></div><div class="field"><label for="dateInput">Datum</label><input id="dateInput" type="date" required /></div><div class="field"><label for="timeInput">Rückkehrzeit</label><input id="timeInput" type="time" required /></div></div><label class="check-row"><input id="notifyInput" type="checkbox" checked /> Mich zur Rückkehrzeit benachrichtigen</label><div class="form-actions"><button type="button" class="ghost-button" id="cancelModal">Abbrechen</button><button type="submit" class="primary-button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Karte speichern</button></div></form></div></div>
+  <div class="toast" id="toast"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg><span id="toastText">Gespeichert</span></div>
   <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
+    const icon = {
+      map: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18 3 21V6l6-3 6 3 6-3v15l-6 3-6-3Z"/><path d="M9 3v15M15 6v15"/></svg>',
+      pin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z"/><circle cx="12" cy="9" r="2.3"/></svg>',
+      bell: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM10 21h4"/></svg>',
+      bellOff: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 0 0-9.8-4.6M6 8c0 7-3 7-3 9h15M10 21h4M3 3l18 18"/></svg>',
+      edit: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m4 16-.8 4.8L8 20l11-11a2.8 2.8 0 0 0-4-4L4 16Z"/><path d="m13.5 6.5 4 4"/></svg>',
+      trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>',
+      plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg>'
+    };
+    let cards = [
+      { id: 1, attraction: "Peter Pan’s Flight", date: "2026-08-30", time: "14:20", notify: true, area: "Fantasyland" },
+      { id: 2, attraction: "Big Thunder Mountain", date: "2026-08-30", time: "15:05", notify: true, area: "Frontierland" },
+      { id: 3, attraction: "Ratatouille: The Adventure", date: "2026-08-30", time: "16:10", notify: false, area: "Worlds of Pixar" }
+    ];
+    let editingId = null;
+    const modal = document.getElementById('modalBackdrop');
+    const form = document.getElementById('cardForm');
+    const attractionInput = document.getElementById('attractionInput');
+    const dateInput = document.getElementById('dateInput');
+    const timeInput = document.getElementById('timeInput');
+    const notifyInput = document.getElementById('notifyInput');
+    const toast = document.getElementById('toast');
+    let toastTimer;
+    function showToast(text) { document.getElementById('toastText').textContent = text; toast.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove('show'), 2900); }
+    function niceDate(date) { const d = new Date(date + 'T12:00:00'); return d.toLocaleDateString('de-DE', {day:'2-digit', month:'short'}).replace('.', ''); }
+    function targetDate(card) { return new Date(card.date + 'T' + card.time + ':00'); }
+    function countdown(card) { const diff = targetDate(card) - new Date(); if (diff <= 0) return 'Jetzt'; const min = Math.floor(diff / 60000); if (min < 60) return min + ' min'; const h = Math.floor(min / 60); return h + ' Std. ' + (min % 60) + ' min'; }
+    function render() {
+      const list = document.getElementById('cards');
+      list.innerHTML = cards.map(card => `<article class="priority-card" data-id="${card.id}"><div class="card-top"><span class="park-tag"><i class="park-dot"></i>${card.area || 'Disneyland Park'}</span><button class="card-menu" aria-label="Optionen">•••</button></div><div class="attraction"><h4>${escapeHtml(card.attraction)}</h4><p>${icon.pin} Disneyland Paris</p></div><div class="return-band"><div><div class="return-label">Rückkehrzeit</div><div class="return-time">${card.time}</div><div class="return-date">${niceDate(card.date)} 2026</div></div><div class="countdown"><strong>${countdown(card)}</strong><span>bis zur Rückkehr</span></div></div><div class="card-footer"><div class="notify-state ${card.notify ? '' : 'off'}">${card.notify ? icon.bell : icon.bellOff}<span>${card.notify ? 'Erinnerung an' : 'Erinnerung aus'}</span></div><div class="card-actions"><button class="small-action edit-btn" aria-label="Karte bearbeiten">${icon.edit}</button><button class="small-action delete-btn" aria-label="Karte löschen">${icon.trash}</button></div></div></article>`).join('') + `<button class="add-card" id="addCard"><span class="add-card-icon">${icon.plus}</span><span class="add-card-copy"><strong>Priority-Karte hinzufügen</strong><span>Für deine nächste Attraktion</span></span></button>`;
+      document.getElementById('navCount').textContent = cards.length;
+      const upcoming = [...cards].sort((a,b) => targetDate(a)-targetDate(b))[0];
+      if (upcoming) { document.getElementById('heroTime').textContent = upcoming.time; document.getElementById('heroAttraction').textContent = upcoming.attraction; document.getElementById('heroCountdown').textContent = countdown(upcoming); }
+      document.querySelectorAll('.edit-btn').forEach(btn => btn.addEventListener('click', () => openModal(Number(btn.closest('.priority-card').dataset.id))));
+      document.querySelectorAll('.delete-btn').forEach(btn => btn.addEventListener('click', () => { const id = Number(btn.closest('.priority-card').dataset.id); const item = cards.find(x => x.id === id); if (confirm('Diese Priority-Karte wirklich löschen?')) { cards = cards.filter(x => x.id !== id); render(); showToast(item.attraction + ' wurde gelöscht'); } }));
+      document.getElementById('addCard').addEventListener('click', () => openModal());
     }
+    function escapeHtml(s) { return s.replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
+    function openModal(id) {
+      editingId = id || null; document.getElementById('modalTitle').textContent = editingId ? 'Priority-Karte bearbeiten' : 'Neue Priority-Karte';
+      if (editingId) { const c = cards.find(x=>x.id===editingId); attractionInput.value=c.attraction; dateInput.value=c.date; timeInput.value=c.time; notifyInput.checked=c.notify; } else { attractionInput.value=''; dateInput.value='2026-08-30'; timeInput.value=''; notifyInput.checked=true; }
+      modal.classList.add('show'); setTimeout(()=>attractionInput.focus(), 50);
+    }
+    function closeModal() { modal.classList.remove('show'); editingId=null; }
+    document.getElementById('closeModal').addEventListener('click', closeModal); document.getElementById('cancelModal').addEventListener('click', closeModal); modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+    form.addEventListener('submit', e => { e.preventDefault(); const data={ attraction:attractionInput.value.trim(), date:dateInput.value, time:timeInput.value, notify:notifyInput.checked, area:'Disneyland Paris' }; if (!data.attraction || !data.date || !data.time) return; if (editingId) { const i=cards.findIndex(x=>x.id===editingId); cards[i]={...cards[i],...data}; showToast('Priority-Karte aktualisiert'); } else { cards.push({id:Date.now(),...data}); showToast('Priority-Karte hinzugefügt'); } closeModal(); render(); });
+    document.getElementById('notifyBtn').addEventListener('click', async () => { if (!('Notification' in window)) { showToast('Benachrichtigungen werden hier nicht unterstützt'); return; } const result=await Notification.requestPermission(); if (result==='granted') { new Notification('Parkzeit ist bereit', { body:'Du erhältst eine Erinnerung, wenn deine Rückkehrzeit erreicht ist.', icon:'' }); showToast('Benachrichtigungen sind aktiviert'); } else { showToast('Bitte Benachrichtigungen im Browser erlauben'); } });
+    document.getElementById('tipBtn').addEventListener('click', () => showToast('Du kannst jede Karte jederzeit bearbeiten oder löschen.'));
+    setInterval(() => { render(); }, 30000);
+    render();
   </script>
 </body>
 </html>
