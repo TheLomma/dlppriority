@@ -11,7 +11,7 @@ Eine iPhone-optimierte PWA zum Erfassen und Verwalten von Rückkehrzeiten für P
 - `icons/icon-180.png` – iPhone-Home-Screen-Icon
 - `icons/icon-192.png` und `icons/icon-512.png` – PWA-Icons
 - `icons/favicon-32.png` – Browser-Favicon
-- `assets/dlp-priority-logo.png` – Original-Logo in hoher Auflösung
+- `assets/dlp-priority-logo.png` – Original-Logo in hoher Auflösung; wird zusätzlich oben in der App angezeigt
 
 ## Änderungen am Logo in GitHub übernehmen
 
