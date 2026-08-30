@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="112" fill="#10243d"/>
-  <path d="M106 310c0-83 67-150 150-150s150 67 150 150" fill="none" stroke="#ff735f" stroke-width="22" stroke-linecap="round"/>
-  <path d="M256 112v42M128 199l29 29M384 199l-29 29" fill="none" stroke="#fff" stroke-width="18" stroke-linecap="round"/>
-  <circle cx="256" cy="310" r="70" fill="#ff735f"/>
-  <text x="256" y="333" text-anchor="middle" font-family="Arial, sans-serif" font-size="54" font-weight="800" fill="#10243d">DLP</text>
-</svg>
