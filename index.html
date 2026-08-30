@@ -491,7 +491,7 @@
   <script>
     (() => {
       const DLP_TODAY = '2026-08-30';
-      const DLP_PREVIEW_NOW = '2026-08-30T14:30:00';
+      // const DLP_PREVIEW_NOW = '2026-08-30T14:30:00'; // entfernt - echte Zeit wird verwendet
       const DLP_VERSION = '1.0';
       const dlpIcon = {
         home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m3 11 9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9Z"/></svg>',
@@ -548,7 +548,7 @@
       const isoToday = () => dlpDay.id;
       const allEntries = () => dlpCards.flatMap(card => card.entries.map(entry => ({...entry, cardId:card.id, cardName:card.name})));
       const dayEntries = () => allEntries().filter(entry => entry.date === dlpDay.id);
-      const previewNow = () => new Date(dlpDay.id + 'T14:30:00');
+      const previewNow = () => new Date();
       const nextEntry = () => dayEntries().filter(entry => entryDate(entry) > previewNow()).sort((a,b) => entryDate(a)-entryDate(b))[0] || null;
       const latestEntry = () => dayEntries().filter(entry => entry.current).sort((a,b) => entryDate(b)-entryDate(a))[0] || dayEntries().filter(entry => entryDate(entry) <= previewNow()).sort((a,b) => entryDate(b)-entryDate(a))[0] || null;
       const stateOf = entry => {
